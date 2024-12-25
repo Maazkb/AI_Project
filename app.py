@@ -4,8 +4,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectFromModel
 import streamlit as st
 
-# Step 1: Load and preprocess the dataset
-data = pd.read_csv('Lung_Cancer_Dataset.csv')
+
+# Replace the URL with the raw link to your CSV file
+url = 'https://raw.githubusercontent.com/username/repository/main/Lung_Cancer_Dataset.csv'
+data = pd.read_csv(url)
+
+print(data.head())
 
 # Encode categorical variables
 data['GENDER'] = data['GENDER'].map({'M': 1, 'F': 0})
