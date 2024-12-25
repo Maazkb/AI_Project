@@ -6,7 +6,7 @@ import streamlit as st
 
 
 # Replace the URL with the raw link to your CSV file
-url = 'https://raw.githubusercontent.com/username/repository/main/Lung_Cancer_Dataset.csv'
+url = 'https://raw.githubusercontent.com/Maazkb/AI_Project/refs/heads/main/Lung_Cancer_Dataset.csv'
 data = pd.read_csv(url)
 
 print(data.head())
