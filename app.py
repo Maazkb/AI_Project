@@ -1,15 +1,13 @@
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import SelectFromModel
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 import streamlit as st
-
 
 # Replace the URL with the raw link to your CSV file
 url = 'https://raw.githubusercontent.com/Maazkb/AI_Project/refs/heads/main/Lung_Cancer_Dataset.csv'
 data = pd.read_csv(url)
-
-print(data.head())
 
 # Encode categorical variables
 data['GENDER'] = data['GENDER'].map({'M': 1, 'F': 0})
@@ -19,9 +17,16 @@ data['LUNG_CANCER'] = data['LUNG_CANCER'].map({'YES': 1, 'NO': 0})
 X = data.drop('LUNG_CANCER', axis=1)
 y = data['LUNG_CANCER']
 
-# Train a Random Forest model to evaluate feature importance
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a Random Forest model
 model = RandomForestClassifier(random_state=42)
-model.fit(X, y)
+model.fit(X_train, y_train)
+
+# Evaluate model accuracy
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
 
 # Extract feature importance
 feature_importances = pd.DataFrame({
@@ -39,3 +44,7 @@ st.bar_chart(feature_importances.set_index('Feature'))
 
 # Display the table of feature importance
 st.write(feature_importances)
+
+# Display the accuracy score
+st.subheader('Model Accuracy')
+st.write(f"The accuracy of the Random Forest model is: **{accuracy:.2f}**")
