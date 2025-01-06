@@ -10,10 +10,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import matplotlib.pyplot as plt
 
-# Set the page layout and style
 st.set_page_config(page_title="CancerVision Analyzer", layout="wide")
 
-# Add custom CSS to improve visual appearance
+
 st.markdown("""
     <style>
     .main {
@@ -43,7 +42,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Helper function to visualize feature importance
+
 def display_feature_importance(title, feature_importance_df):
     st.subheader(title)
     fig, ax = plt.subplots(figsize=(12, 6))
@@ -55,10 +54,10 @@ def display_feature_importance(title, feature_importance_df):
     plt.tight_layout()
     st.pyplot(fig)
 
-# Display title
+
 st.title("CancerVision Analyzer")
 
-# Combined results storage
+
 results = []
 
 # Process Dataset 1
