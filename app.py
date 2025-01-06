@@ -10,15 +10,48 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import matplotlib.pyplot as plt
 
+# Set the page layout and style
+st.set_page_config(page_title="CancerVision Analyzer", layout="wide")
+
+# Add custom CSS to improve visual appearance
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f0f2f6;
+    }
+    h1 {
+        color: #2c3e50;
+        font-size: 3rem;
+        font-family: 'Helvetica', sans-serif;
+    }
+    h2 {
+        color: #1abc9c;
+    }
+    .stDataFrame tbody tr:nth-child(odd) {
+        background-color: #ecf0f1;
+    }
+    .stDataFrame tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+    .stButton>button {
+        background-color: #16a085;
+        color: white;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        height: 40px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Helper function to visualize feature importance
 def display_feature_importance(title, feature_importance_df):
     st.subheader(title)
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.bar(feature_importance_df['Feature'], feature_importance_df['Importance'], color='skyblue')
-    ax.set_title(title)
-    ax.set_xlabel('Features')
-    ax.set_ylabel('Importance')
-    plt.xticks(rotation=45)
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.bar(feature_importance_df['Feature'], feature_importance_df['Importance'], color='#3498db')
+    ax.set_title(title, fontsize=16)
+    ax.set_xlabel('Features', fontsize=12)
+    ax.set_ylabel('Importance', fontsize=12)
+    plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     st.pyplot(fig)
 
@@ -28,8 +61,8 @@ st.title("CancerVision Analyzer")
 # Combined results storage
 results = []
 
-# Process Dataset 1: Maaz AI
-st.header("Dataset 1: Maaz AI")
+# Process Dataset 1
+st.header("Dataset 1")
 maaz_data = pd.read_excel("Lung_Cancer_Dataset.xlsx")
 maaz_data['GENDER'] = maaz_data['GENDER'].map({'M': 1, 'F': 0})
 maaz_data['LUNG_CANCER'] = maaz_data['LUNG_CANCER'].map({'YES': 1, 'NO': 0})
@@ -50,11 +83,11 @@ results.append(("Maaz AI", "Random Forest", accuracy1, feature_importances1))
 
 st.write(f"Accuracy: **{accuracy1 * 100:.2f}%**")
 st.write("Feature Importances:")
-st.dataframe(feature_importances1)
+st.dataframe(feature_importances1.style.background_gradient(cmap='coolwarm'))
 display_feature_importance('Feature Importance - Maaz AI', feature_importances1)
 
-# Process Dataset 2: Raffay AI
-st.header("Dataset 2: Raffay AI")
+# Process Dataset 2
+st.header("Dataset 2")
 raffay_data = pd.read_excel("Breast_Cancer 1.xlsx")
 label_encoders = {}
 for column in raffay_data.select_dtypes(include=['object']).columns:
@@ -83,11 +116,11 @@ results.append(("Raffay AI", "SVC", accuracy2, feature_importances2))
 
 st.write(f"Accuracy: **{accuracy2 * 100:.2f}%**")
 st.write("Feature Importances:")
-st.dataframe(feature_importances2)
+st.dataframe(feature_importances2.style.background_gradient(cmap='coolwarm'))
 display_feature_importance('Feature Importance - Raffay AI', feature_importances2)
 
-# Process Dataset 3: Zakriya AI
-st.header("Dataset 3: Zakriya AI")
+# Process Dataset 3
+st.header("Dataset 3")
 zakriya_data = pd.read_excel("Thyroid_Diff.xlsx")
 selected_features3 = ['AGE', 'GENDER', 'SMOKING', 'HX SMOKING', 'HX RADIOTHERAPY']
 target_column3 = 'Recurred'
@@ -114,11 +147,11 @@ results.append(("Zakriya AI", "Logistic Regression", accuracy3, feature_importan
 
 st.write(f"Accuracy: **{accuracy3 * 100:.2f}%**")
 st.write("Feature Importances:")
-st.dataframe(feature_importances3)
+st.dataframe(feature_importances3.style.background_gradient(cmap='coolwarm'))
 display_feature_importance('Feature Importance - Zakriya AI', feature_importances3)
 
-# Process Dataset 4: Naqvi AI
-st.header("Dataset 4: Naqvi AI")
+# Process Dataset 4
+st.header("Dataset 4")
 naqvi_data = pd.read_excel("lung_cancer_examples.xlsx")
 naqvi_data = naqvi_data.drop(columns=['Name', 'Surname'])
 target_column4 = 'Result'
@@ -137,7 +170,7 @@ results.append(("Naqvi AI", "Decision Tree", accuracy4, feature_importances4))
 
 st.write(f"Accuracy: **{accuracy4 * 100:.2f}%**")
 st.write("Feature Importances:")
-st.dataframe(feature_importances4)
+st.dataframe(feature_importances4.style.background_gradient(cmap='coolwarm'))
 display_feature_importance('Feature Importance - Naqvi AI', feature_importances4)
 
 # Combined Model
@@ -152,12 +185,10 @@ for dataset, target in zip([X1, X2, X3, X4], [y1, y2, y3, y4]):
     temp_data = temp_data.reindex(columns=all_features_list, fill_value=0)
     combined_data = pd.concat([combined_data, temp_data], axis=0)
 
-combined_targets = pd.concat([
-    pd.Series(y1).reset_index(drop=True),
-    pd.Series(y2).reset_index(drop=True),
-    pd.Series(y3).reset_index(drop=True),
-    pd.Series(y4).reset_index(drop=True)
-], axis=0).reset_index(drop=True)
+combined_targets = pd.concat([pd.Series(y1).reset_index(drop=True),
+                              pd.Series(y2).reset_index(drop=True),
+                              pd.Series(y3).reset_index(drop=True),
+                              pd.Series(y4).reset_index(drop=True)], axis=0).reset_index(drop=True)
 
 scaler_combined = StandardScaler()
 combined_data = scaler_combined.fit_transform(combined_data)
@@ -177,5 +208,5 @@ feature_importances_combined = pd.DataFrame({
 
 st.write(f"Accuracy: **{accuracy_combined * 100:.2f}%**")
 st.write("Feature Importances:")
-st.dataframe(feature_importances_combined)
+st.dataframe(feature_importances_combined.style.background_gradient(cmap='coolwarm'))
 display_feature_importance('Feature Importance - Combined Model', feature_importances_combined)
