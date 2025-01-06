@@ -23,7 +23,7 @@ def display_feature_importance(title, feature_importance_df):
     st.pyplot(fig)
 
 # Display title
-st.title("AI and ML Feature Importance Explorer")
+st.title("CancerVision Analyzer")
 
 # Combined results storage
 results = []
