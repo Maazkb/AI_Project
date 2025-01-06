@@ -84,7 +84,7 @@ results.append(("Maaz AI", "Random Forest", accuracy1, feature_importances1))
 st.write(f"Accuracy: **{accuracy1 * 100:.2f}%**")
 st.write("Feature Importances:")
 st.dataframe(feature_importances1.style.background_gradient(cmap='coolwarm'))
-display_feature_importance('Feature Importance - Maaz AI', feature_importances1)
+display_feature_importance('Feature Importance ', feature_importances1)
 
 # Process Dataset 2
 st.header("Dataset 2")
@@ -117,7 +117,7 @@ results.append(("Raffay AI", "SVC", accuracy2, feature_importances2))
 st.write(f"Accuracy: **{accuracy2 * 100:.2f}%**")
 st.write("Feature Importances:")
 st.dataframe(feature_importances2.style.background_gradient(cmap='coolwarm'))
-display_feature_importance('Feature Importance - Raffay AI', feature_importances2)
+display_feature_importance('Feature Importance', feature_importances2)
 
 # Process Dataset 3
 st.header("Dataset 3")
@@ -148,7 +148,7 @@ results.append(("Zakriya AI", "Logistic Regression", accuracy3, feature_importan
 st.write(f"Accuracy: **{accuracy3 * 100:.2f}%**")
 st.write("Feature Importances:")
 st.dataframe(feature_importances3.style.background_gradient(cmap='coolwarm'))
-display_feature_importance('Feature Importance - Zakriya AI', feature_importances3)
+display_feature_importance('Feature Importance', feature_importances3)
 
 # Process Dataset 4
 st.header("Dataset 4")
@@ -171,7 +171,7 @@ results.append(("Naqvi AI", "Decision Tree", accuracy4, feature_importances4))
 st.write(f"Accuracy: **{accuracy4 * 100:.2f}%**")
 st.write("Feature Importances:")
 st.dataframe(feature_importances4.style.background_gradient(cmap='coolwarm'))
-display_feature_importance('Feature Importance - Naqvi AI', feature_importances4)
+display_feature_importance('Feature Importance', feature_importances4)
 
 # Combined Model
 st.header("Combined Model")
